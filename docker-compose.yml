@@ -1,0 +1,49 @@
+version: '3.7'
+
+networks:
+  directory:
+  mdm:
+
+services:
+  
+  # directory
+  ldap-server:
+    build: openldap-server
+    image: osps/openldap:withdata
+    environment:
+      # LDAP_ADMIN_PASSWORD: test1234
+      LDAP_BASE_DN: dc=osps,dc=local
+    # ports:
+    #   - 389:389
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/ldap/slapd.d
+    networks:
+      - directory
+  ldap-server-admin:
+    image: osixia/phpldapadmin:0.9.0
+    ports:
+      - 8001:80
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: ldap-server
+      PHPLDAPADMIN_HTTPS: 'false'
+    networks:
+      - directory
+
+  # mdm
+  headwind-mdm:
+    build: headwind-mdm/.
+    image: osps/hmdm
+    networks:
+      - mdm
+    ports:
+      - 8002:8080
+    # entrypoint: sleep
+    # command: 6h
+    volumes:
+      - hmdm-content:/home/hmdmr
+
+volumes:
+  ldap-data:
+  ldap-config:
+  hmdm-content:
