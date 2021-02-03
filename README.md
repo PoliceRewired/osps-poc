@@ -1,6 +1,8 @@
 # OSPS - the open source policing service
 
-This is a sample infrastructure for a policing service, built with open source components.
+This is a community project, which will grow over time as we add more components.
+
+The OSPS is a sample infrastructure for a policing service, built with open source components.
 
 * Directory service: [OpenLDAP](https://www.openldap.org/)
 * MDM service: [Headwind MDM](https://h-mdm.com/) (community edition)
